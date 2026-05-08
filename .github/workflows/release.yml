@@ -1,0 +1,47 @@
+name: "Wydanie Dziennika Badawczego"
+
+on:
+  push:
+    tags:
+      - 'v*' # Skrypt uruchomi się tylko, gdy wyślesz tag zaczynający się od "v" (np. v1.0.0)
+
+jobs:
+  publish-tauri:
+    permissions:
+      contents: write
+    strategy:
+      fail-fast: false
+      matrix:
+        platform: [ubuntu-22.04, windows-latest]
+
+    runs-on: ${{ matrix.platform }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Setup Rust
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Zainstaluj pakiety Linuksa (tylko na Ubuntu)
+        if: matrix.platform == 'ubuntu-22.04'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libwebkit2gtk-4.1-dev libappindicator3-dev librsvg2-dev patchelf
+
+      - name: Zainstaluj zależności frontendu
+        run: npm install
+
+      - name: Kompilacja i Publikacja (Tauri)
+        uses: tauri-apps/tauri-action@v0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tagName: app-v__VERSION__
+          releaseName: 'Astroneer Wiki v__VERSION__'
+          releaseBody: 'Automatycznie skompilowane pliki wykonywalne Dziennika Badawczego. Pobierz .exe dla Windowsa lub .AppImage dla Linuksa.'
+          releaseDraft: false
+          prerelease: false

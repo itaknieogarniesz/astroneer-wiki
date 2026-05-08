@@ -14,6 +14,8 @@ export default function App() {
   const [activeTab,  setActiveTab]  = useState("all");
   const [selectedEntryId, setSelectedEntryId] = useState(null);
   
+  // Detekcja środowiska Tauri (Desktop vs Web)
+  const isTauri = typeof window !== 'undefined' && (window.__TAURI__ !== undefined || window.__TAURI_INTERNALS__ !== undefined);  
   // Detekcja urządzeń mobilnych
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
 
@@ -53,7 +55,7 @@ export default function App() {
   return (
     <div style={{
       minHeight: "100vh",
-      background: "rgba(8, 13, 26, 0.75",
+      background: isTauri ? "rgba(8, 13, 26, 0.75)" : "#080d1a",
       color: "#e2e8f0",
       fontFamily: "'Outfit', sans-serif",
       position: "relative",
