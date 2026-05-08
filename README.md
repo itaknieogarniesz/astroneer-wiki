@@ -24,7 +24,7 @@ Cybernetyczny Dziennik Badawczy dedykowany grze Astroneer. Projekt hybrydowy zbu
 
 ```bash
 # 1. Klonowanie repozytorium
-git clone [https://github.com/TWOJ-NICK/astroneer-wiki.git](https://github.com/TWOJ-NICK/astroneer-wiki.git)
+git clone [https://github.com/itaknieogarniesz/astroneer-wiki.git](https://github.com/TWOJ-NICK/astroneer-wiki.git)
 cd astroneer-wiki
 
 # 2. Instalacja zależności środowiska
